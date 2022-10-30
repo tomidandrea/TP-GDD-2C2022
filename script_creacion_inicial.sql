@@ -210,6 +210,7 @@ SELECT * FROM gd_esquema.Maestra WHERE VENTA_CODIGO = 121415
 */
 
 --funcion para calcular edad del cliente
+/*
 create function NOT_FOUND.edad_cliente(@fecha_nac date)
  RETURNS INT
  BEGIN
@@ -219,6 +220,7 @@ create function NOT_FOUND.edad_cliente(@fecha_nac date)
 			  END
  END
  GO
+*/
 
 --STORED PROCEDURES PARA LA MIGRACION
 
@@ -409,8 +411,6 @@ CREATE PROCEDURE NOT_FOUND.migrar_venta_cupon
 	FROM gd_esquema.Maestra				  
 	WHERE VENTA_CUPON_CODIGO IS NOT NULL 
   END
-  DELETE NOT_FOUND.VENTA
-execute migrar_venta_cupon
 GO
 
 CREATE PROCEDURE NOT_FOUND.migrar_venta_producto
@@ -476,9 +476,6 @@ CREATE PROCEDURE NOT_FOUND.migrar_compra_descuento
   END
 GO
 
-/*
- SELECT COMPRA_NUMERO, COMPRA_TOTAL, SUM(COMPRA_PRODUCTO_CANTIDAD*COMPRA_PRODUCTO_PRECIO) FROM gd_esquema.Maestra WHERE COMPRA_PRODUCTO_CANTIDAD IS NOT NULL GROUP BY COMPRA_NUMERO,COMPRA_TOTAL
-*/
 
 CREATE PROCEDURE NOT_FOUND.migrar_compras_totales
  AS
@@ -493,31 +490,30 @@ CREATE PROCEDURE NOT_FOUND.ejecutar_procedures AS
 BEGIN 
 	
 	BEGIN TRANSACTION
-
-	execute NOT_FOUND.migrar_canales
 	execute NOT_FOUND.migrar_categorias
-	execute NOT_FOUND.migrar_clientes
-	execute NOT_FOUND.migrar_compra_descuento
-	execute NOT_FOUND.migrar_compra_producto
-	execute NOT_FOUND.migrar_compras
-	execute NOT_FOUND.migrar_compras_totales
-	execute NOT_FOUND.migrar_cupones
-	execute NOT_FOUND.migrar_localidad
 	execute NOT_FOUND.migrar_marcas
 	execute NOT_FOUND.migrar_materiales
-	execute NOT_FOUND.migrar_medios_envio
-	execute NOT_FOUND.migrar_medios_pago
 	execute NOT_FOUND.migrar_productos
-	execute NOT_FOUND.migrar_productos_variantes
-	execute NOT_FOUND.migrar_proveedores
-	execute NOT_FOUND.migrar_provincias
-	execute NOT_FOUND.migrar_tipos_descuento
 	execute NOT_FOUND.migrar_tipos_variante
 	execute NOT_FOUND.migrar_variantes
+	execute NOT_FOUND.migrar_productos_variantes
+	execute NOT_FOUND.migrar_provincias
+	execute NOT_FOUND.migrar_localidad
+	execute NOT_FOUND.migrar_clientes
+	execute NOT_FOUND.migrar_proveedores
+	execute NOT_FOUND.migrar_medios_pago
+	execute NOT_FOUND.migrar_compras
+	execute NOT_FOUND.migrar_canales
+	execute NOT_FOUND.migrar_medios_envio
+	execute NOT_FOUND.migrar_compra_descuento
+	execute NOT_FOUND.migrar_compra_producto
+	execute NOT_FOUND.migrar_compras_totales
+	execute NOT_FOUND.migrar_ventas
+	execute NOT_FOUND.migrar_venta_producto
+	execute NOT_FOUND.migrar_tipos_descuento
+	execute NOT_FOUND.migrar_cupones
 	execute NOT_FOUND.migrar_venta_cupon
 	execute NOT_FOUND.migrar_venta_descuento
-	execute NOT_FOUND.migrar_venta_producto
-	execute NOT_FOUND.migrar_ventas
 	execute NOT_FOUND.migrar_ventas_totales
 
 	COMMIT TRANSACTION
@@ -527,3 +523,4 @@ GO
 
 execute NOT_FOUND.ejecutar_procedures
 GO
+
