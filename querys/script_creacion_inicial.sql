@@ -501,18 +501,3 @@ GO
 
 execute NOT_FOUND.ejecutar_procedures
 GO
-
-
---funcion para calcular edad del cliente (requerimiento para la prox entrega)
-/*
-create function NOT_FOUND.edad_cliente(@fecha_nac date)
- RETURNS INT
- BEGIN
-  RETURN CASE WHEN MONTH(@fecha_nac) <= MONTH(GETDATE()) AND DAY(@fecha_nac) <= DAY(GETDATE())
-			  THEN YEAR(GETDATE()) - YEAR(@fecha_nac) 
-			  ELSE YEAR(GETDATE()) - YEAR(@fecha_nac) - 1 
-			  END
- END
- GO
-*/
-
